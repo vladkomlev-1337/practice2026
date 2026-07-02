@@ -1,4 +1,4 @@
-name: CIAdd a comment on  line R1Add diff commentMarkdown input:  edit mode selected.WritePreviewAdd a suggestionHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
+name: CI
 on:
   push:
     branches: [main, task*]
