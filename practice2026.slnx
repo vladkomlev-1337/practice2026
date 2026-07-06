@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="Auth/Auth.csproj" />
+  <Project Path="Captcha/Captcha.csproj" />
+  <Project Path="CheckEmail/CheckEmail.csproj" />
+  <Project Path="ConsoleApp/ConsoleApp.csproj" />
+  <Project Path="Plugin/Plugin.csproj" />
+  <Project Path="SendEmail/SendEmail.csproj" />
+  <Project Path="UserSession/UserSession.csproj" />
+</Solution>
