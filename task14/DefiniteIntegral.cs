@@ -61,4 +61,20 @@ public class DefiniteIntegral
         barrier.SignalAndWait();
         return totalsum;
     }
+    public static double SolveWithOneThread(double a, double b, Func<double,double> function, double step)
+    {
+        int n = (int) ((b-a)/step);
+        if (n < 1)
+        {
+            n = 1;
+        }
+        double h = (b-a )/n;
+        double sum = (function(a) + function(b)) / 2.0;
+        for (int i = 1; i < n; i++)
+        {
+            double x = a + i*h;
+            sum += function(x);
+        }
+        return sum * h;
+    }
 }

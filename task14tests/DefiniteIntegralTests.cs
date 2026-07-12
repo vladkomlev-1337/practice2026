@@ -1,5 +1,5 @@
-﻿using task14;
-using Xunit;
+﻿using Xunit;
+using task14;
 namespace task14tests;
 
 public class DefineIntegralTests
