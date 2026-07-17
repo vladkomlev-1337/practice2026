@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Windows.Input;
 namespace task17;
 public class ServerThread
 {
@@ -10,9 +9,11 @@ public class ServerThread
     private bool _isHardStop = false;
     public bool IsAlive => _thread.IsAlive;
     public int ThreadId => _thread.ManagedThreadId;
-    public ServerThread(ExceptionHandler exceptionHandler)
+    public IScheduler Scheduler {get;}
+    public ServerThread(ExceptionHandler exceptionHandler, IScheduler scheduler)
     {
         _exceptionHandler = exceptionHandler;
+        Scheduler = scheduler ?? throw new ArgumentNullException(nameof(scheduler));
         _thread = new Thread(Run);
     }
     public void Start() => _thread.Start();
@@ -34,9 +35,27 @@ public class ServerThread
     }
     public void Run()
     {
-        foreach(var command in _queue.GetConsumingEnumerable())
+        while (!_isHardStop)
         {
-            if (_isHardStop)
+            ICommand command = null;
+            if (Scheduler.HasCommand())
+            {
+                command = Scheduler.Select();
+            }
+            else if (_queue.TryTake(out var externalCommand))
+            {
+                command = externalCommand;
+            }
+            else if (_queue.IsCompleted)
+            {
+                break;
+            }
+            else
+            {
+                Thread.Sleep(1);
+                continue;
+            }
+            if (command == null)
             {
                 break;
             }
