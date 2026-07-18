@@ -28,6 +28,14 @@ public class CustomCollection<T> : IEnumerable<T>
     }
     public IEnumerable<T> FilterAndSort(Func<T, bool> predicate, Func<T, IComparable> keySelector)
     {
+        if (predicate == null)
+        {
+            throw new ArgumentNullException(nameof(predicate));
+        }
+        if (keySelector == null)
+        {
+            throw new ArgumentNullException(nameof(keySelector));
+        }
         return _items.Where(predicate).OrderBy(keySelector);
     }
 }
