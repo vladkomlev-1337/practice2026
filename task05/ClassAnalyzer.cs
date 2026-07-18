@@ -11,6 +11,10 @@ public class ClassAnalyzer
 
     public ClassAnalyzer(Type type)
     {
+        if (type == null)
+        {
+            throw new ArgumentNullException(nameof(type), "cant be null");
+        }
         _type = type;
         
     }
@@ -21,6 +25,11 @@ public class ClassAnalyzer
     
     public IEnumerable<string> GetMethodParams(string methodname)
     {
+        var met = _type.GetMethod(methodname);
+        if (met == null)
+        {
+            return Enumerable.Empty<string>();
+        }
         string returntype = _type.GetMethod(methodname).ReturnType.Name;
         IEnumerable<string> names = _type.GetMethod(methodname).GetParameters().Select(s => s.Name);
         names = names.Append(returntype);
@@ -37,12 +46,6 @@ public class ClassAnalyzer
     }
     public bool HasAttribute<T>() where T : Attribute
     {
-        if ((_type.GetCustomAttribute(typeof(T))) != null) {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+       return _type.IsDefined(typeof(T),false);
     }
 }
